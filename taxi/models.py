@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
+from taxi_service.settings import AUTH_USER_MODEL
 
 
 # Create your models here.
@@ -16,12 +18,14 @@ class Manufacturer(models.Model):
 
 class Car(models.Model):
     model = models.CharField(max_length=255)
-
     manufacturer = models.ForeignKey(
         Manufacturer,
         on_delete=models.CASCADE
     )
-    drivers = models.ManyToManyField("Driver")
+    drivers = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name="cars"
+    )
 
     class Meta:
         ordering = ["model"]
@@ -33,8 +37,5 @@ class Car(models.Model):
 class Driver(AbstractUser):
     license_number = models.CharField(max_length=255, unique=True)
 
-    class Meta:
-        ordering = ["last_name", "first_name"]
-
     def __str__(self):
-        return f"{self.username}, {self.first_name} {self.last_name}"
+        return f"{self.username}, {self.license_number}"

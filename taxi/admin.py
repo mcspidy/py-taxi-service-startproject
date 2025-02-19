@@ -7,21 +7,20 @@ from django.contrib.auth.admin import UserAdmin
 @admin.register(Manufacturer)
 class ManufacturerAdmin(admin.ModelAdmin):
     pass
-# admin.site.register(Manufacturer)
 
 
 @admin.register(Car)
 class CarAdmin(admin.ModelAdmin):
-    manufacturer = ["manufacturer"]
-    model = ["model"]
+    search_fields = ["model",]
+    list_filter = ["manufacturer",]
 
 
 @admin.register(Driver)
-class DriverAdmin(admin.ModelAdmin):
-    driver_data = ["username", "first_name", "last_name", "license_number"]
+class DriverAdmin(UserAdmin):
+    list_display = UserAdmin.list_display + ("license_number",)
     fieldsets = UserAdmin.fieldsets + (
-        ("Additional Info", {"fields": ("license_number",)}),
+        ("Additional info", {"fields": ("license_number",)}),
     )
     add_fieldsets = UserAdmin.add_fieldsets + (
-        ("Additional Info", {"fields": ("license_number",)}),
+        ("Additional info", {"fields": ("license_number",)}),
     )

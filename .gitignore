@@ -1,9 +1,9 @@
 venv/
-.venv/
+.vscode/
 __pycache__/
 *.pyc
 *.pyo
-.idea
-*.sqlite*
+.idea/
+*.sqlite3
 .python-version
 misc/
